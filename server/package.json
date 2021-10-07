@@ -21,5 +21,8 @@
     "ts-node": "^10.2.1",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "express-fileupload": "^1.2.1"
   }
 }
