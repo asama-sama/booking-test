@@ -2,6 +2,12 @@
 
 A web app for uploading bookings from `.csv` files.
 
+## Running
+
+For the client, run `npm run start` from the root directory
+
+For the server, run `npm run start` or `npm run dev` from the server directory. `npm install` packages for the server separately to the client.
+
 ## Existing code
 
 ### Overview
