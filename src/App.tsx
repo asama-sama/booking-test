@@ -23,6 +23,19 @@ export const App = () => {
 
   const onDrop = (files: File[]) => {
     console.log(files)
+    onPost(files);
+  }
+
+  const onPost = async (files: File[]) => {
+    const data = new FormData();
+    files.forEach((file, idx) => {
+      data.append(`file-${idx}`, file);
+    });
+    const res = await fetch(`${apiUrl}/bookings`, {
+      method: 'POST',
+      body: data
+    })
+    console.log(res)
   }
 
   return (
