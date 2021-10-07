@@ -1,6 +1,7 @@
 import {Booking, fromJson} from "./types/Booking";
 import checkFiletype from './utils/checkFiletype';
 import parseCSVtoJSOn from "./utils/parseCSVtoJSON";
+import insertBookings from "./utils/insertBookings";
 
 const express = require('express')
 const cors = require('cors')
@@ -11,15 +12,13 @@ const app = express()
 app.use(cors()) // so that app can access
 app.use(fileUpload());
 
-const bookings: Booking[] = JSON.parse(fs.readFileSync('./bookings.json')).map(
+let bookings: Booking[] = JSON.parse(fs.readFileSync('./bookings.json')).map(
   (bookingRecord: any ) => ({
-    time: Date.parse(bookingRecord.time),
-    duration: bookingRecord.duration * 60 * 1000, // mins into ms
+    time: bookingRecord.time,
+    duration: bookingRecord.duration, // mins into ms
     userId: bookingRecord.user_id,
   }),
 )
-
-
 
 app.get('/bookings', (_: any, res: any) => {
   console.log('get bookings')
@@ -28,9 +27,9 @@ app.get('/bookings', (_: any, res: any) => {
 })
 
 app.post('/bookings', (req: any, res: any) => {
-  // console.log('post file', req.files)
   const fileNames = Object.keys(req.files);
-  console.log(`uplaoded ${fileNames.length} files`)
+  const insertedBookings = {};
+  const overlappingBookings = {};
   for (let filename of fileNames) {
     const file = req.files[filename];
 
@@ -40,13 +39,26 @@ app.post('/bookings', (req: any, res: any) => {
       // TODO: handle error
       continue;
     }
-    const bookings = fromJson(parseCSVtoJSOn(csvData));
+    try {
+     
+      const newBookings = fromJson(parseCSVtoJSOn(csvData));
 
-    console.log('bookings', bookings)
-    // checks for overlapping bookings
+      // checks for overlapping bookings
+      const {bookingsOverlapping, bookingsToInsert} = insertBookings(newBookings, bookings);
+      bookings = bookings.concat(bookingsToInsert);
+      Object.assign(insertedBookings, bookingsToInsert);
+      Object.assign(overlappingBookings, bookingsOverlapping);
+      
+    } catch(e) { 
+      return res.status(500).send(e)
+    }
   }
   
-  res.sendStatus(200);
+  res.status(200).send({
+    insertedBookings,
+    overlappingBookings,
+    bookings
+  });
 })
 
 app.listen(3001, () => console.log("app is listening..."))

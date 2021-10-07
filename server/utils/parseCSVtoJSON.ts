@@ -10,6 +10,7 @@ const parseCSVtoJSOn = (csv: string) => {
         .map(headerVal => headerVal.trim())
     let data = csvLines.slice(1, csvLines.length);
     let json = data.map(line => {
+        if (line.trim() === "") return {};
         let jsonOfCSVLine: I_CSV<string> = {} 
         line.split(',').forEach((cell, idx) => {
             const headerValue = header[idx];
@@ -17,7 +18,7 @@ const parseCSVtoJSOn = (csv: string) => {
             jsonOfCSVLine[headerValue] = cell;
         })
         return jsonOfCSVLine;
-    })
+    }).filter(o => Object.keys(o).length > 0)   // remove empty objects
 
     return json;
 }

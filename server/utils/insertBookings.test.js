@@ -1,5 +1,5 @@
 import insertBookings from './insertBookings';
-import {booking_current as currentBookings} from '../test-artifacts/bookings'
+import {booking_current as currentBookings, booking_1_booking} from '../test-artifacts/bookings'
 const fs = require("fs");
 
 describe('insertBookings', () => {
@@ -66,5 +66,11 @@ describe('insertBookings', () => {
         const {bookingsToInsert, bookingsOverlapping} = insertBookings(newBookings, currentBookings)
         expect(bookingsToInsert.length).toBe(0);
         expect(bookingsOverlapping.length).toBe(3);
+    });
+
+    test('test given csv file against initial state', () => {
+      const {bookingsToInsert, bookingsOverlapping} = insertBookings(booking_1_booking, currentBookings)
+      expect(bookingsToInsert.length).toBe(4);
+      expect(bookingsOverlapping.length).toBe(4);
     })
 })
