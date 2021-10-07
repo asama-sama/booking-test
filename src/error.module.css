@@ -1,0 +1,13 @@
+.Error {
+    background: #fd9f9f;
+    width: 300px;
+    margin: 0 auto;
+        margin-top: 0px;
+    border-radius: 30px;
+    height: 30px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: bold;
+}

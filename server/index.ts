@@ -28,8 +28,8 @@ app.get('/bookings', (_: any, res: any) => {
 
 app.post('/bookings', (req: any, res: any) => {
   const fileNames = Object.keys(req.files);
-  const insertedBookings = {};
-  const overlappingBookings = {};
+  let insertedBookings: Booking[] = [];
+  let overlappingBookings: Booking[] = [];
   for (let filename of fileNames) {
     const file = req.files[filename];
 
@@ -46,8 +46,8 @@ app.post('/bookings', (req: any, res: any) => {
       // checks for overlapping bookings
       const {bookingsOverlapping, bookingsToInsert} = insertBookings(newBookings, bookings);
       bookings = bookings.concat(bookingsToInsert);
-      Object.assign(insertedBookings, bookingsToInsert);
-      Object.assign(overlappingBookings, bookingsOverlapping);
+      insertedBookings = insertedBookings.concat( bookingsToInsert);
+      overlappingBookings = overlappingBookings.concat(bookingsOverlapping);
       
     } catch(e) { 
       return res.status(500).send(e)

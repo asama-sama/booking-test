@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Dropzone from 'react-dropzone'
 import './App.css'
+import ErrorStyle from './error.module.css';
 
 const apiUrl = 'http://localhost:3001'
 
@@ -14,6 +15,7 @@ type Booking = {
 
 export const App = () => {
   const [bookings, setBookings] = useState<Booking[]>([])
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     fetch(`${apiUrl}/bookings`)
@@ -27,6 +29,7 @@ export const App = () => {
   }
 
   const onPost = async (files: File[]) => {
+    setError('')
     const data = new FormData();
     files.forEach((file, idx) => {
       data.append(`file-${idx}`, file);
@@ -35,7 +38,13 @@ export const App = () => {
       method: 'POST',
       body: data
     })
-    console.log(res)
+    .then(res => res.json())
+    .then(json => {
+      setBookings(json.bookings);
+      if (json.overlappingBookings.length > 0) {
+        setError(`Could not set ${json.overlappingBookings.length} bookings`);
+      }
+    })
   }
 
   return (
@@ -53,6 +62,7 @@ export const App = () => {
         </Dropzone>
       </div>
       <div className='App-main'>
+        {error && <div className={ErrorStyle.Error}>Error: {error}</div>}
         <p>Existing bookings:</p>
         {bookings.map((booking, i) => {
           const date = new Date(booking.time)
