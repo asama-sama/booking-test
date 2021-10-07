@@ -22,25 +22,23 @@ const postBookings = (req: any, res: any) => {
     let overlappingBookings: Booking[] = [];
     for (let filename of fileNames) {
         const file = req.files[filename];
-
-        const csvData = file.data.toString('utf8');
-
-        if (!checkFiletype(file.name, 'csv')) {
-            // TODO: handle error
-            continue;
-        }
-        try {
         
-        const newBookings = fromJson(parseCSVtoJSOn(csvData));
+        try {
+            const csvData = file.data.toString('utf8');
+        
+            if (!checkFiletype(file.name, 'csv')) {
+                throw new Error('incorrect file format');
+            }
+            const newBookings = fromJson(parseCSVtoJSOn(csvData));
 
-        // checks for overlapping bookings
-        const {bookingsOverlapping, bookingsToInsert} = insertBookings(newBookings, bookings);
-        bookings = bookings.concat(bookingsToInsert);
-        insertedBookings = insertedBookings.concat( bookingsToInsert);
-        overlappingBookings = overlappingBookings.concat(bookingsOverlapping);
+            // checks for overlapping bookings
+            const {bookingsOverlapping, bookingsToInsert} = insertBookings(newBookings, bookings);
+            bookings = bookings.concat(bookingsToInsert);
+            insertedBookings = insertedBookings.concat( bookingsToInsert);
+            overlappingBookings = overlappingBookings.concat(bookingsOverlapping);
         
         } catch(e) { 
-        return res.status(500).send(e)
+            return res.status(500).send(e)
         }
     }
     
