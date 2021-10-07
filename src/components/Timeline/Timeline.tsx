@@ -12,6 +12,8 @@ const Duration = ({duration, time}: {duration: number, time: TimeStamp}) => {
         backgroundColor: 'blue',
         position: 'absolute',
         height: '10px',
+        borderRadius:'20px',
+        border: '1px solid black'
     } 
     return <div style={style}></div>
 }
