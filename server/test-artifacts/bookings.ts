@@ -92,4 +92,32 @@ const booking_1_booking: Booking[] = [{
     userId: "0003"
 }];
 
-module.exports = {booking_1_CSV, booking_1_json, booking_1_booking}
+const booking_current: Booking[] = [{
+    "time": "01 Mar 2020 11:00:00 GMT+1000",
+    "duration": 180,
+    "userId": "0001"
+  },
+  {
+    "time": "02 Mar 2020 11:00:00 GMT+1000",
+    "duration": 180,
+    "userId": "0001"
+  },
+  {
+    "time": "03 Mar 2020 11:00:00 GMT+1000",
+    "duration": 180,
+    "userId": "0001"
+  },
+  {
+    "time": "04 Mar 2020 11:00:00 GMT+1000",
+    "duration": 180,
+    "userId": "0001"
+  },
+  {
+    "time": "05 Mar 2020 11:00:00 GMT+1000",
+    "duration": 180,
+    "userId": "0001"
+  }
+    
+]
+
+module.exports = {booking_1_CSV, booking_1_json, booking_1_booking, booking_current}
