@@ -7,7 +7,7 @@ const fs = require('fs')
 const app = express()
 app.use(cors()) // so that app can access
 
-const bookings = JSON.parse(fs.readFileSync('./server/bookings.json')).map(
+const bookings = JSON.parse(fs.readFileSync('./bookings.json')).map(
   (bookingRecord: Booking ) => ({
     time: Date.parse(bookingRecord.time),
     duration: bookingRecord.duration * 60 * 1000, // mins into ms

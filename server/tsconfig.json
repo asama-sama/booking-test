@@ -22,5 +22,5 @@
     },
     "include": [
       "."
-    ]
+      , "babel.config.js"    ]
   }
