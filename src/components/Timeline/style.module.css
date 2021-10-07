@@ -1,0 +1,17 @@
+.Timeline {
+    border: 1px solid grey;
+}
+
+.Timeline-Row {
+    display: flex;
+}
+
+.Timeline-Row-Time {
+    flex-basis: 20%;
+    border-right: 1px solid grey;
+}
+
+.Timeline-Row-Duration {
+    flex-basis: 80%;
+    position: relative;
+}

@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Dropzone from 'react-dropzone'
 import './App.css'
+import { Booking } from './Types';
 import ErrorStyle from './error.module.css';
+import Timeline from './components/Timeline/Timeline';
 
 const apiUrl = 'http://localhost:3001'
-
-type TimeStamp = string;
-type Seconds = number;
-type Booking = {
-  time: TimeStamp;
-  duration: Seconds;
-  userId: string;
-}
 
 export const App = () => {
   const [bookings, setBookings] = useState<Booking[]>([])
@@ -64,6 +58,7 @@ export const App = () => {
       <div className='App-main'>
         {error && <div className={ErrorStyle.Error}>Error: {error}</div>}
         <p>Existing bookings:</p>
+        <Timeline bookings={bookings} />
         {bookings.map((booking, i) => {
           const date = new Date(booking.time)
           const duration = booking.duration / (60 * 1000)
