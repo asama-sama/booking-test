@@ -4,6 +4,7 @@ interface Booking {
     userId: string
 }
 
+// converts a JSON booking object to Booking array
 const fromJson = (json: Object[]) : Booking[] => {
     return json.map((item: any) => {
         const booking: Booking = {

@@ -5,6 +5,7 @@ import {BOOKING_TYPES} from '../../utils/constants';
 import getDurationWidth from '../../utils/timelineDurationHelpers/getDurationWidth';
 import getStartAsPercent from "../../utils/timelineDurationHelpers/getStartAsPercent";
 
+// Displays a "bar" for a booking
 const Duration = ({duration, time, type, row}: {duration: number, time: TimeStamp, type: BOOKING_TYPES, row: number}) => {
     
     const durationWidth = getDurationWidth(duration)
@@ -32,6 +33,7 @@ const Duration = ({duration, time, type, row}: {duration: number, time: TimeStam
     return <div style={style} className={colorClass}></div>
 }
 
+// Organises all the bookings into a timeline. Groups together bookings on the same day.
 const Timeline = ({bookings, rows}: {bookings: TimelineDurationProperty[], rows: number}) => {
 
     const bookingsByDate = getBookingsByDate(bookings);

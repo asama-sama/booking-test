@@ -1,5 +1,7 @@
 import { TimelineDurationProperty } from "../../Types";
 
+// groups together bookings into an object where the key is the data and corresponding value is the
+// list of bookings that fall on that date
 const getBookingsByDate = (bookings: TimelineDurationProperty[])  => {
     const bookingsByDate: {[key: string]: TimelineDurationProperty[]} = {};
     bookings.map(booking => {

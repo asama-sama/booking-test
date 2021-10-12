@@ -2,6 +2,7 @@ interface I_CSV<TValue> {
     [id: string]: TValue
 }
 
+// Takes a CSV file and returns a JSON structure for it
 const parseCSVtoJSOn = (csv: string) => {
     const csvLines = csv.split('\n');
     if (csvLines.length === 0) return [];   // empty csv

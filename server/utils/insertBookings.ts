@@ -1,5 +1,7 @@
 import { Booking } from "../types/Booking"
 import bookingOverlap from "./bookingOverlap";
+// Takes a list of bookings and returns which ones can be inserted and which ones
+// can't be onto another bookings list, based on whether they overlap
 const insertBookings = (newBookings: Booking[], currentBookings: Booking[]) : {
     bookingsToInsert: Booking[],
     bookingsOverlapping: Booking[]

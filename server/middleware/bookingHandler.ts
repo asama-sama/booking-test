@@ -17,6 +17,8 @@ const getBookings = (req:any, res: any) => {
     res.json(bookings);
 };
 
+// takes bookings CSV and adds them to bookings in memory
+// returns what was inserted, what was there previously and what could not be inserted
 const postBookings = (req: any, res: any) => {
     const fileNames = Object.keys(req.files);
     let insertedBookings: Booking[] = [];

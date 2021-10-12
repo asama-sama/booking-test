@@ -1,4 +1,5 @@
 import styles from "./Legend.module.css";
+// Legend showing what different colors represent
 const Legend = () => {
     return (
         <div className={styles.legend}>
