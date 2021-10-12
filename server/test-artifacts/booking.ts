@@ -46,6 +46,28 @@ const cases_should_overlap = [
         "duration": 180,
         "user_id": "0001"
     }
+}, {
+    b1: {
+        "time": "02 Mar 2020 11:00:00 GMT+1000",
+        "duration": 180,
+        "userId": "0001"
+    },
+    b2:  {
+        "time": "02 Mar 2020 11:00:00 GMT+1000",
+        "duration": 180,
+        "user_id": "0001"
+    }
+}, {
+    b1: {
+        "time": "02 Mar 2020 11:00:00 GMT+1000",
+        "duration": 180,
+        "userId": "0001"
+    },
+    b2:  {
+        "time": "02 Mar 2020 13:59:59 GMT+1000",
+        "duration": 180,
+        "user_id": "0001"
+    }
 }]
 
 const cases_should_not_overlap = [
@@ -57,6 +79,17 @@ const cases_should_not_overlap = [
     },
     b2: {
         "time": "03 Mar 2020 15:00:00 GMT+1000",
+        "duration": 180,
+        "user_id": "0001"
+    }
+}, {
+    b1: {
+        "time": "03 Mar 2020 11:00:00 GMT+1000",
+        "duration": 180,
+        "userId": "0001"
+    },
+    b2: {
+        "time": "03 Mar 2020 14:00:00 GMT+1000",
         "duration": 180,
         "user_id": "0001"
     }

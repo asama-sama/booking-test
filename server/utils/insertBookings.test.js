@@ -70,7 +70,7 @@ describe('insertBookings', () => {
 
     test('test given csv file against initial state', () => {
       const {bookingsToInsert, bookingsOverlapping} = insertBookings(booking_1_booking, currentBookings)
-      expect(bookingsToInsert.length).toBe(4);
-      expect(bookingsOverlapping.length).toBe(4);
+      expect(bookingsToInsert.length).toBe(5);
+      expect(bookingsOverlapping.length).toBe(3);
     })
 })

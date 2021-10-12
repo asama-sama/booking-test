@@ -1,3 +1,10 @@
+:root {
+  --booking-previous-color: blue;
+  --booking-new-color: green;
+  --booking-overlap-color: red;
+}
+
+
 .App {
   text-align: center;
 }
@@ -34,4 +41,16 @@
 .App-booking-user {
   display: inline-block;
   width: 80px;
+}
+
+.Booking-Previous {
+  background-color: var(--booking-previous-color);
+}
+
+.Booking-New {
+  background-color: var(--booking-new-color);
+}
+
+.Booking-Overlap {
+  background-color: var(--booking-overlap-color);
 }

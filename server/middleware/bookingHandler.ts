@@ -1,4 +1,5 @@
 import {Booking, fromJson} from "../types/Booking";
+import { PostBookingsRes } from "../types/resTypes/PostBookingsRes";
 import checkFiletype from '../utils/checkFiletype';
 import insertBookings from "../utils/insertBookings";
 import parseCSVtoJSOn from "../utils/parseCSVtoJSON";
@@ -20,6 +21,7 @@ const postBookings = (req: any, res: any) => {
     const fileNames = Object.keys(req.files);
     let insertedBookings: Booking[] = [];
     let overlappingBookings: Booking[] = [];
+    const previousBookings = [...bookings];
     for (let filename of fileNames) {
         const file = req.files[filename];
         
@@ -36,17 +38,20 @@ const postBookings = (req: any, res: any) => {
             bookings = bookings.concat(bookingsToInsert);
             insertedBookings = insertedBookings.concat( bookingsToInsert);
             overlappingBookings = overlappingBookings.concat(bookingsOverlapping);
-        
+            
         } catch(e) { 
             return res.status(500).send(e)
         }
     }
-    
-    res.status(200).send({
+
+    const returnBookings: PostBookingsRes = {
         insertedBookings,
         overlappingBookings,
+        previousBookings,
         bookings
-    });
+    }
+    
+    res.status(200).send(returnBookings);
 }
 
 export {getBookings, postBookings};

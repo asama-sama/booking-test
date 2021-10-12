@@ -1,3 +1,5 @@
+import {BOOKING_TYPES} from './utils/constants';
+
 type TimeStamp = string;
 type Seconds = number;
 type Booking = {
@@ -6,4 +8,9 @@ type Booking = {
     userId: string;
 }
 
-export type {Booking, TimeStamp, Seconds}
+interface TimelineDurationProperty extends Booking {
+    row: number,
+    type: BOOKING_TYPES
+}
+
+export type {Booking, TimeStamp, Seconds, TimelineDurationProperty}

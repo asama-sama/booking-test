@@ -1,9 +1,18 @@
 .Timeline {
     border: 1px solid grey;
+    display: flex;
+    flex-direction: column;
 }
 
 .Timeline-Row {
     display: flex;
+    border-bottom: 1px solid grey;
+}
+
+.Timeline-Row--firstrow .Timeline-Row-Duration--firstrow{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .Timeline-Row-Time {

@@ -1,0 +1,7 @@
+export enum BOOKING_TYPES {
+    PREVIOUS_BOOKING,
+    NEW_BOOKING,
+    OVERLAPPING_BOOKING
+}
+
+// export {BOOKING_TYPES}

@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import Dropzone from 'react-dropzone'
 import './App.css'
-import { Booking } from './Types';
+import { Booking, TimelineDurationProperty } from './Types';
 import ErrorStyle from './error.module.css';
 import Timeline from './components/Timeline/Timeline';
+import {PostBookingsRes} from '../server/types/resTypes/PostBookingsRes';
+import { BOOKING_TYPES } from './utils/constants';
+import Legend from './components/Legend/Legend';
 
 const apiUrl = 'http://localhost:3001'
 
 export const App = () => {
-  const [bookings, setBookings] = useState<Booking[]>([])
+  const [previousBooking, setPreviousBookings] = useState<Booking[]>([])
+  const [newBookings, setNewBookings] = useState<Booking[]>([])
+  const [overLappingBookings, setOverLappingBookings] = useState<Booking[]>([])
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
     fetch(`${apiUrl}/bookings`)
       .then((response) => response.json())
-      .then(setBookings)
+      .then(setPreviousBookings)
   }, [])
 
   const onDrop = (files: File[]) => {
@@ -28,18 +33,43 @@ export const App = () => {
     files.forEach((file, idx) => {
       data.append(`file-${idx}`, file);
     });
-    const res = await fetch(`${apiUrl}/bookings`, {
+    await fetch(`${apiUrl}/bookings`, {
       method: 'POST',
       body: data
     })
     .then(res => res.json())
-    .then(json => {
-      setBookings(json.bookings);
-      if (json.overlappingBookings.length > 0) {
+    .then((json: PostBookingsRes) => {
+      const {
+        previousBookings, 
+        insertedBookings, 
+        overlappingBookings,
+      }: PostBookingsRes = json
+      setPreviousBookings(previousBookings);
+      setNewBookings(insertedBookings);
+      setOverLappingBookings(overlappingBookings);
+      if (overlappingBookings.length > 0) {
         setError(`Could not set ${json.overlappingBookings.length} bookings`);
       }
     })
   }
+
+  const prevWithProps: TimelineDurationProperty[] = previousBooking.map(i => ({
+    ...i, 
+    type: BOOKING_TYPES.PREVIOUS_BOOKING,
+    row: 1
+  }));
+  const newWithProps: TimelineDurationProperty[] = newBookings.map(i => ({
+    ...i,
+    type: BOOKING_TYPES.NEW_BOOKING,
+    row: 1
+  }));
+  const successBookings = prevWithProps.concat(newWithProps);
+  const overlapWithProps: TimelineDurationProperty[] = overLappingBookings.map(i => ({
+    ...i,
+    type: BOOKING_TYPES.OVERLAPPING_BOOKING,
+    row: 2
+  }));
+  const allBookings = prevWithProps.concat(newWithProps).concat(overlapWithProps);
 
   return (
     <div className='App'>
@@ -57,21 +87,9 @@ export const App = () => {
       </div>
       <div className='App-main'>
         {error && <div className={ErrorStyle.Error}>Error: {error}</div>}
+        <Legend />
         <p>Existing bookings:</p>
-        <Timeline bookings={bookings} />
-        {bookings.map((booking, i) => {
-          const date = new Date(booking.time)
-          const duration = booking.duration / (60 * 1000)
-          return (
-            <p key={i} className='App-booking'>
-              <span className='App-booking-time'>{date.toString()}</span>
-              <span className='App-booking-duration'>
-                {duration.toFixed(1)}
-              </span>
-              <span className='App-booking-user'>{booking.userId}</span>
-            </p>
-          )
-        })}
+        <Timeline bookings={allBookings} rows={2}/>
       </div>
     </div>
   )
