@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import Dropzone from 'react-dropzone'
 import './App.css'
 import { Booking, TimelineDurationProperty } from './Types';
-import ErrorStyle from './error.module.css';
 import Timeline from './components/Timeline/Timeline';
 import {PostBookingsRes} from '../server/types/resTypes/PostBookingsRes';
 import { BOOKING_TYPES } from './utils/constants';
 import Legend from './components/Legend/Legend';
+import ErrorMessage from './components/Error/ErrorMessage';
 
 const apiUrl = 'http://localhost:3001'
 
@@ -63,7 +63,6 @@ export const App = () => {
     type: BOOKING_TYPES.NEW_BOOKING,
     row: 1
   }));
-  const successBookings = prevWithProps.concat(newWithProps);
   const overlapWithProps: TimelineDurationProperty[] = overLappingBookings.map(i => ({
     ...i,
     type: BOOKING_TYPES.OVERLAPPING_BOOKING,
@@ -86,7 +85,7 @@ export const App = () => {
         </Dropzone>
       </div>
       <div className='App-main'>
-        {error && <div className={ErrorStyle.Error}>Error: {error}</div>}
+        {error && <ErrorMessage error={error} />}
         <Legend />
         <p>Existing bookings:</p>
         <Timeline bookings={allBookings} rows={2}/>
